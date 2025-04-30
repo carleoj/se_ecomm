@@ -14,7 +14,7 @@ const UserHome = () => {
       navigate("/", { replace: true });
     } else {
       setLoading(false);
-      fetch("http://localhost:8081/api/products")
+      fetch("https://se-ecomm.onrender.com/api/products")
         .then(res => res.json())
         .then(data => setProducts(data));
     }

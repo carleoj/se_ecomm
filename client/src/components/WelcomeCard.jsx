@@ -19,7 +19,7 @@ const WelcomeCard = () => {
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post('http://localhost:3000/api/users/login', { email, password });
+      const response = await axios.post('https://se-ecomm.onrender.com/api/users/login', { email, password });
       console.log('Login successful:', response.data);
 
       // Store the token (you can use localStorage or cookies for storing the token)
@@ -45,7 +45,7 @@ const WelcomeCard = () => {
     }
 
     try {
-      const res = await axios.post('http://localhost:3000/api/users', {
+      const res = await axios.post('https://se-ecomm.onrender.com/api/users', {
         name: fullName,
         email,
         password,
