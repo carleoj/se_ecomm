@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState, useMemo, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import './styles/UserHome.css';
 import products from '../data/Products';
@@ -6,11 +6,14 @@ import products from '../data/Products';
 const UserHome = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const productGridRef = useRef(null);
 
   const renderedProducts = useMemo(() => {
     return products.map(product => (
       <div className="uh-product-card" key={product._id}>
-        <img loading="lazy" src={product.image} alt={product.name} className="uh-product-image" />
+        <img loading="lazy" src={product.image} alt={product.name || "Food item"} className="uh-product-image" />
         <h3 className="uh-product-name">{product.name}</h3>
         <div className="uh-product-rating">
           {Array.from({ length: 5 }, (_, i) => (
@@ -23,7 +26,7 @@ const UserHome = () => {
         <button className="uh-product-button">Add to Cart</button>
       </div>
     ));
-  }, [products]);
+  }, []);
 
   useEffect(() => {
     const token = localStorage.getItem("authToken");
@@ -45,15 +48,30 @@ const UserHome = () => {
 
   if (loading) return null;
 
+  const handleNavigation = (route) => {
+    // Navigate to the corresponding route under '/user-home'
+    navigate(`/user-home/${route}`);
+  };
+
   return (
     <div className="uh-container">
       <div className="uh-navbar">
         <h1 className="uh-navbar-title">Foodini</h1>
-        <div className="uh-navbar-links">
-          <button className="uh-navbar-btn" onClick={() => navigate('/shop')}>Shop</button>
-          <button className="uh-navbar-btn" onClick={() => navigate('/orders')}>Orders</button>
-          <button className="uh-navbar-btn" onClick={() => navigate('/account')}>Account</button>
+
+        <button
+          className="uh-hamburger"
+          onClick={() => setIsMenuOpen(prev => !prev)}
+          aria-label="Toggle navigation menu"
+        >
+          ☰
+        </button>
+
+        <div className={`uh-navbar-links ${isMenuOpen ? "open" : ""}`}>
+          <button className="uh-navbar-btn" onClick={() => handleNavigation('shop')}>Shop</button>
+          <button className="uh-navbar-btn" onClick={() => handleNavigation('orders')}>Orders</button>
+          <button className="uh-navbar-btn" onClick={() => handleNavigation('account')}>Account</button>
         </div>
+
         <button onClick={handleLogout} className="uh-logout-btn">Logout</button>
       </div>
 
@@ -64,13 +82,11 @@ const UserHome = () => {
         </div>
 
         <div className="uh-product-scroll-container">
-          <button className="uh-scroll-button left" onClick={() => document.querySelector('.uh-product-grid').scrollLeft -= 300}>{"<"}</button>
-
-          <div className="uh-product-grid">
+          <button className="uh-scroll-button left" onClick={() => productGridRef.current.scrollLeft -= 300}>{"<"}</button>
+          <div className="uh-product-grid" ref={productGridRef}>
             {renderedProducts}
           </div>
-
-          <button className="uh-scroll-button right" onClick={() => document.querySelector('.uh-product-grid').scrollLeft += 300}>{">"}</button>
+          <button className="uh-scroll-button right" onClick={() => productGridRef.current.scrollLeft += 300}>{">"}</button>
         </div>
       </div>
     </div>

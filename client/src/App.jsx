@@ -6,7 +6,7 @@ import UserHome from './components/UserHome';
 import AdminHome from './components/AdminHome';
 import ProtectedRoute from './components/ProtectedRoute';
 
-import OrdersPage from './components/OrdersPage';
+import UserOrders from './components/UserOrders';
 import ShopPage from './components/ShopPage';
 import AccountPage from './components/AccountPage';
 
@@ -17,15 +17,15 @@ function App() {
         <Route path="/" element={<WelcomeCard />} />
 
         <Route
-          path="/user-home/*"
+          path="/user-home"
           element={
             <ProtectedRoute>
               <UserHome />
             </ProtectedRoute>
           }
         >
-          <Route path="" element={<Navigate to="orders" replace />} />
-          <Route path="orders" element={<OrdersPage />} />
+          {/* Nested Routes */}
+          <Route path="orders" element={<UserOrders />} />
           <Route path="shop" element={<ShopPage />} />
           <Route path="account" element={<AccountPage />} />
         </Route>

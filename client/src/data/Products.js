@@ -23,7 +23,7 @@ const products = [
     },
     {
       _id: "3",
-      name: "Vegan Salad Bowl",
+      name: "Veggie Salad Bowl",
       image: "/salad.jpg",
       description: "A healthy mix of greens, avocado, and quinoa.",
       rating: 4,
@@ -33,7 +33,7 @@ const products = [
     },
     {
         _id: "4",
-        name: "Seafood Pizza",
+        name: "Pepperoni Pizza",
         image: "/pizza.jpg",
         description: "It is baked flatbread with toppings.",
         rating: 4,

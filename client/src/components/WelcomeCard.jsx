@@ -10,6 +10,7 @@ const WelcomeCard = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [isLoading, setIsLoading] = useState(false);  
 
   const navigate = useNavigate(); 
 
@@ -18,22 +19,22 @@ const WelcomeCard = () => {
   };
 
   const handleLogin = async () => {
+    setIsLoading(true);
     try {
       const response = await axios.post('https://se-ecomm.onrender.com/api/users/login', { email, password });
       console.log('Login successful:', response.data);
-
-      // Store the token (you can use localStorage or cookies for storing the token)
       localStorage.setItem('authToken', response.data.token);
-      
+  
       if (response.data.isAdmin) {
         navigate('/admin-home');
       } else {
         navigate('/user-home');
       }
-      
     } catch (error) {
       console.error('Login failed:', error.response?.data?.message);
       alert(error.response?.data?.message || 'Login failed');
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -125,6 +126,12 @@ const WelcomeCard = () => {
           >
             {isSignUp ? "Already have an account? Login" : "Don't have an account? Sign Up"}
           </button>
+          {isLoading && (
+            <div className="loading-overlay">
+              <div className="loading-spinner"></div>
+              <p className="loading-text">Logging in...</p>
+            </div>
+          )}
         </div>
       </div>
     </div>
