@@ -13,7 +13,7 @@ const products = [
     },
     {
       _id: "2",
-      name: "Classic Cheeseburger",
+      name: "Half Pound Burger",
       image: "/burgerpic.jpg",
       description: "Juicy beef patty with cheddar cheese and fresh lettuce.",
       rating: 5,
@@ -33,7 +33,7 @@ const products = [
     },
     {
         _id: "4",
-        name: "Pizza",
+        name: "Seafood Pizza",
         image: "/pizza.jpg",
         description: "It is baked flatbread with toppings.",
         rating: 4,
@@ -43,54 +43,15 @@ const products = [
       },
       {
         _id: "5",
-        name: "Vegan Salad Bowl",
-        image: "/salad.jpg",
+        name: "Chocolate Cookie Frappe",
+        image: "/chocofrappe.jpg",
         description: "A healthy mix of greens, avocado, and quinoa.",
         rating: 4,
         numReview: 18,
         price: 10,
         countInStock: 12
       },
-      {
-        _id: "6",
-        name: "Vegan Salad Bowl",
-        image: "/salad.jpg",
-        description: "A healthy mix of greens, avocado, and quinoa.",
-        rating: 4,
-        numReview: 18,
-        price: 10,
-        countInStock: 12
-      },
-      {
-        _id: "7",
-        name: "Vegan Salad Bowl",
-        image: "/salad.jpg",
-        description: "A healthy mix of greens, avocado, and quinoa.",
-        rating: 4,
-        numReview: 18,
-        price: 10,
-        countInStock: 12
-      },
-      {
-        _id: "8",
-        name: "Vegan Salad Bowl",
-        image: "/salad.jpg",
-        description: "A healthy mix of greens, avocado, and quinoa.",
-        rating: 4,
-        numReview: 18,
-        price: 10,
-        countInStock: 12
-      },
-      {
-        _id: "9",
-        name: "Vegan Salad Bowl",
-        image: "/salad.jpg",
-        description: "A healthy mix of greens, avocado, and quinoa.",
-        rating: 4,
-        numReview: 18,
-        price: 10,
-        countInStock: 12
-      }
+     
   ];
   
   export default products;
