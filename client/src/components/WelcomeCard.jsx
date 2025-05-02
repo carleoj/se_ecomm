@@ -143,7 +143,7 @@ const WelcomeCard = () => {
           {isLoading && (
             <div className="loading-overlay">
               <div className="loading-spinner"></div>
-              <p className="loading-text">Creating your account...</p>
+              <p className="loading-text">Please wait...</p>
             </div>
           )}
         </div>
