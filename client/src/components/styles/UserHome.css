@@ -287,4 +287,145 @@
   color: inherit;         /* Use inherited color */
 }
 
+.uh-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.uh-modal {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  width: 300px;
+  text-align: center;
+}
+
+.uh-modal-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.uh-modal-buttons button {
+  padding: 10px;
+  background-color: #f5c518;
+  border: none;
+  cursor: pointer;
+}
+
+.uh-modal-buttons button:hover {
+  background-color: #ff9900;
+}
+
+
+.uh-dashboard {
+  max-width: 1200px;
+  margin: 3rem auto;
+  padding: 2rem;
+  background: #fdfdfd;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.uh-dashboard-heading {
+  font-size: 1.5rem;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: #333;
+}
+
+.uh-account-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.uh-account-form label {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.95rem;
+  color: #444;
+}
+
+.uh-account-form input {
+  padding: 0.5rem;
+  font-size: 0.95rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  transition: border 0.2s ease;
+}
+
+.uh-account-form input:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+.uh-btn {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 0.95rem;
+  transition: background 0.2s ease;
+}
+
+.uh-btn.edit {
+  background-color: #007bff;
+  color: white;
+}
+
+.uh-btn.save {
+  background-color: #28a745;
+  color: white;
+}
+
+.uh-btn.cancel {
+  background-color: #dc3545;
+  color: white;
+}
+
+.uh-form-buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.uh-message {
+  padding: 0.5rem;
+  text-align: center;
+  background-color: #e9ffe9;
+  border: 1px solid #b2ffb2;
+  color: #267326;
+  border-radius: 6px;
+}
+
+fieldset {
+  border: 1px solid #ddd;
+  padding: 1rem;
+  border-radius: 8px;
+}
+
+legend {
+  font-weight: bold;
+  font-size: 1rem;
+  padding: 0 0.5rem;
+  color: #555;
+}
+
+hr {
+  margin: 2rem 0;
+  border: none;
+  border-top: 1px solid #ddd;
+}
+
 

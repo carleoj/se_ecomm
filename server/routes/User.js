@@ -19,6 +19,7 @@ userRoute.post(
                 isAdmin: user.isAdmin,
                 token: generateToken(user._id), 
                 createdAt: user.createdAt,
+                shippingAddress: user.shippingAddress
             })
         }else{
             res.status(401);
@@ -39,7 +40,8 @@ userRoute.post('/', AsyncHandler(
             const user = await User.create({
                 name,
                 email,
-                password
+                password,
+                shippingAddress: {} 
             })
             if(user){
                 res.status(201).json({
@@ -47,7 +49,8 @@ userRoute.post('/', AsyncHandler(
                     name: user.name,
                     email: user.email,
                     isAdmin: user.isAdmin,
-                    createdAt: user.createdAt,  
+                    createdAt: user.createdAt, 
+                    shippingAddress: user.shippingAddress, 
                 })
             }else{
                 res.status(400);
@@ -82,10 +85,18 @@ userRoute.put("/profile", protect, AsyncHandler(
         if(user){
             user.name = req.body.name || user.name
             user.email = req.body.email || user.email
+            user.shippingAddress = req.body.shippingAddress || user.shippingAddress;
 
             if(req.body.password){
                 user.password = req.body.password
             }
+            if (req.body.shippingAddress) {
+                user.shippingAddress = {
+                  ...user.shippingAddress,
+                  ...req.body.shippingAddress
+                };
+            }
+            
             const updatedUser = await user.save()
             res.json({
                 _id: updatedUser._id,
@@ -93,6 +104,7 @@ userRoute.put("/profile", protect, AsyncHandler(
                 email: updatedUser.email,
                 idAdmin: updatedUser.isAdmin,
                 createdAt: updatedUser.createdAt,
+                shippingAddress: updatedUser.shippingAddress,
                 token: generateToken(updatedUser._id)
             })
         }else{

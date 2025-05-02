@@ -10,9 +10,11 @@ const WelcomeCard = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [isLoading, setIsLoading] = useState(false);  
+  const [isLoading, setIsLoading] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [modalMessage, setModalMessage] = useState('');
 
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
   const toggleForm = () => {
     setIsSignUp(!isSignUp);
@@ -23,8 +25,9 @@ const WelcomeCard = () => {
     try {
       const response = await axios.post('https://se-ecomm.onrender.com/api/users/login', { email, password });
       console.log('Login successful:', response.data);
+      localStorage.setItem('name', response.data.name);
       localStorage.setItem('authToken', response.data.token);
-  
+
       if (response.data.isAdmin) {
         navigate('/admin-home');
       } else {
@@ -45,6 +48,8 @@ const WelcomeCard = () => {
       return;
     }
 
+    setIsLoading(true); // Show the loading modal when the signup request starts
+
     try {
       const res = await axios.post('https://se-ecomm.onrender.com/api/users', {
         name: fullName,
@@ -53,11 +58,19 @@ const WelcomeCard = () => {
       });
 
       console.log('User created:', res.data);
-      alert('Account created successfully!');
+      setModalMessage('Account created successfully! You can now log in.');
+      setShowModal(true);
     } catch (error) {
       console.error('Signup error:', error.response?.data?.message || error.message);
-      alert(error.response?.data?.message || 'Something went wrong');
+      setModalMessage(error.response?.data?.message || 'Something went wrong, please try again.');
+      setShowModal(true);
+    } finally {
+      setIsLoading(false); // Hide the loading modal once the request is complete
     }
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
   };
 
   return (
@@ -126,14 +139,25 @@ const WelcomeCard = () => {
           >
             {isSignUp ? "Already have an account? Login" : "Don't have an account? Sign Up"}
           </button>
+
           {isLoading && (
             <div className="loading-overlay">
               <div className="loading-spinner"></div>
-              <p className="loading-text">Logging in...</p>
+              <p className="loading-text">Creating your account...</p>
             </div>
           )}
         </div>
       </div>
+
+      {/* Modal for account creation success or failure */}
+      {showModal && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <p>{modalMessage}</p>
+            <button className="modal-close-btn" onClick={closeModal}>Close</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
