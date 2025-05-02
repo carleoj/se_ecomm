@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { useNavigate, Link } from "react-router-dom";  // Import Link
+import React, { useState } from 'react'
+import { useNavigate, Link } from 'react-router-dom';
 
-const UserOrders = () => {
+const UserAccount = () => {
   const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -32,13 +32,13 @@ const UserOrders = () => {
       </div>
 
       <div className="uh-dashboard">
-        <h2 className="uh-dashboard-heading">Your Orders</h2>
+        <h2 className="uh-dashboard-heading">Your Account</h2>
         <div className="uh-dashboard-content">
-          <p>Here you can view your past orders.</p>
+          <p>Here you can view your Account.</p>
         </div>
       </div>
     </div>
   );
 };
 
-export default UserOrders;
+export default UserAccount;

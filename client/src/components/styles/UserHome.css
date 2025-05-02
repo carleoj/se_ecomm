@@ -270,3 +270,21 @@
   }
 }
 
+/* styles/UserHome.css */
+
+.foodini-link {
+  text-decoration: none;  /* Prevent underline */
+  color: inherit;         /* Inherit the color from the parent (navbar-title) */
+}
+
+.uh-navbar-title {
+  font-weight: bold;
+  color: #ffffff;            /* Set the color as needed */
+  cursor: pointer;
+}
+.uh-navbar-btn {
+  text-decoration: none;  /* Remove underline */
+  color: inherit;         /* Use inherited color */
+}
+
+

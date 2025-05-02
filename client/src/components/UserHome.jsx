@@ -1,5 +1,5 @@
-import React, { useEffect, useState, useMemo, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useNavigate, Link } from "react-router-dom";  // Import Link
 import './styles/UserHome.css';
 import products from '../data/Products';
 
@@ -8,25 +8,21 @@ const UserHome = () => {
   const [loading, setLoading] = useState(true);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const productGridRef = useRef(null);
-
-  const renderedProducts = useMemo(() => {
-    return products.map(product => (
-      <div className="uh-product-card" key={product._id}>
-        <img loading="lazy" src={product.image} alt={product.name || "Food item"} className="uh-product-image" />
-        <h3 className="uh-product-name">{product.name}</h3>
-        <div className="uh-product-rating">
-          {Array.from({ length: 5 }, (_, i) => (
-            <span key={i} style={{ color: i < product.rating ? '#f5c518' : '#ddd' }}>★</span>
-          ))}
-          <span className="uh-product-review-count">({product.numReview})</span>
-        </div>
-        <p className="uh-product-description">{product.description}</p>
-        <p className="uh-product-price">${product.price}</p>
-        <button className="uh-product-button">Add to Cart</button>
+  const renderedProducts = products.map(product => (
+    <div className="uh-product-card" key={product._id}>
+      <img loading="lazy" src={product.image} alt={product.name || "Food item"} className="uh-product-image" />
+      <h3 className="uh-product-name">{product.name}</h3>
+      <div className="uh-product-rating">
+        {Array.from({ length: 5 }, (_, i) => (
+          <span key={i} style={{ color: i < product.rating ? '#f5c518' : '#ddd' }}>★</span>
+        ))}
+        <span className="uh-product-review-count">({product.numReview})</span>
       </div>
-    ));
-  }, []);
+      <p className="uh-product-description">{product.description}</p>
+      <p className="uh-product-price">${product.price}</p>
+      <button className="uh-product-button">Add to Cart</button>
+    </div>
+  ));
 
   useEffect(() => {
     const token = localStorage.getItem("authToken");
@@ -48,15 +44,11 @@ const UserHome = () => {
 
   if (loading) return null;
 
-  const handleNavigation = (route) => {
-    // Navigate to the corresponding route under '/user-home'
-    navigate(`/user-home/${route}`);
-  };
-
   return (
     <div className="uh-container">
       <div className="uh-navbar">
-        <h1 className="uh-navbar-title">Foodini</h1>
+      <Link className="uh-navbar-btn brand" to="/user-home">Foodini</Link>
+
 
         <button
           className="uh-hamburger"
@@ -67,9 +59,9 @@ const UserHome = () => {
         </button>
 
         <div className={`uh-navbar-links ${isMenuOpen ? "open" : ""}`}>
-          <button className="uh-navbar-btn" onClick={() => handleNavigation('shop')}>Shop</button>
-          <button className="uh-navbar-btn" onClick={() => handleNavigation('orders')}>Orders</button>
-          <button className="uh-navbar-btn" onClick={() => handleNavigation('account')}>Account</button>
+        <Link className="uh-navbar-btn" to="/user-home">Shop</Link>
+          <Link className="uh-navbar-btn" to="/orders">Orders</Link>  {/* Changed to Link */}
+          <Link className="uh-navbar-btn" to="/account">Account</Link>  {/* Changed to Link */}
         </div>
 
         <button onClick={handleLogout} className="uh-logout-btn">Logout</button>
@@ -82,11 +74,11 @@ const UserHome = () => {
         </div>
 
         <div className="uh-product-scroll-container">
-          <button className="uh-scroll-button left" onClick={() => productGridRef.current.scrollLeft -= 300}>{"<"}</button>
-          <div className="uh-product-grid" ref={productGridRef}>
+          <button className="uh-scroll-button left" onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})}>{"<"}</button>
+          <div className="uh-product-grid">
             {renderedProducts}
           </div>
-          <button className="uh-scroll-button right" onClick={() => productGridRef.current.scrollLeft += 300}>{">"}</button>
+          <button className="uh-scroll-button right" onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})}>{">"}</button>
         </div>
       </div>
     </div>
