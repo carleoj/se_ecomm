@@ -33,17 +33,6 @@ orderRoute.post(
         price,
         user: req.user._id,
       });
-
-      // const newOrder =  new UserOrder({
-      //   userId: '1',
-      //   customerId: '1',
-      //   productId: '652b2e458077fd5b243a06ad',
-      //   quantity: 1,
-      //   subtotal: 12 / 100,
-      //   total: 12 / 100,
-      //   payment_status: '3',
-      // });
-
       const createdOrder = await order.save();
       res.status(201).json(createdOrder);
     }
