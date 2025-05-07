@@ -6,12 +6,6 @@ const UserOrders = () => {
   const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const orders = [
-    { id: '001', item: 'Burger', date: '2025-05-01', status: 'Delivered' },
-    { id: '002', item: 'Pizza', date: '2025-05-03', status: 'Preparing' },
-    { id: '003', item: 'Sushi', date: '2025-05-05', status: 'Cancelled' },
-  ];
-
   return (
     <div className="uh-container">
       <div className="uh-navbar">
@@ -32,7 +26,7 @@ const UserOrders = () => {
         <h2 className="uh-dashboard-heading">Your Orders</h2>
         <div className="uh-dashboard-content">
           <p>Here you can view your past orders.</p>
-          <OrderTable orders={orders} />
+          <OrderTable />
         </div>
       </div>
     </div>
