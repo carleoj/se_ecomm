@@ -1,7 +1,8 @@
+const mongoose = require('mongoose');
 
 const products = [
   {
-    _id: "1",
+    _id: new mongoose.Types.ObjectId().toString(),
     name: "Spicy Chicken Wings",
     image: "/wings.jpg",
     description: "Delicious spicy chicken wings, glazed to perfection.",
@@ -11,7 +12,7 @@ const products = [
     countInStock: 10
   },
   {
-    _id: "2",
+    _id: new mongoose.Types.ObjectId().toString(),
     name: "Half Pound Burger",
     image: "/burgerpic.jpg",
     description: "Juicy beef patty with cheddar cheese and saucy mayo .",
@@ -21,7 +22,7 @@ const products = [
     countInStock: 8
   },
   {
-    _id: "3",
+    _id: new mongoose.Types.ObjectId().toString(),
     name: "Veggie Salad Bowl",
     image: "/salad.jpg",
     description: "A healthy mix of greens, avocado, and quinoa.",
@@ -31,26 +32,25 @@ const products = [
     countInStock: 12
   },
   {
-      _id: "4",
-      name: "Pepperoni Pizza",
-      image: "/pizza.jpg",
-      description: "It is baked flatbread with toppings.",
-      rating: 4,
-      numReview: 18,
-      price: 10,
-      countInStock: 12
-    },
-    {
-      _id: "5",
-      name: "Chocolate Cookie Frappe",
-      image: "/chocofrappe.jpg",
-      description: "A creamy blend of chocolate and crushed cookies.",
-      rating: 4,
-      numReview: 18,
-      price: 10,
-      countInStock: 12
-    },
-   
+    _id: new mongoose.Types.ObjectId().toString(),
+    name: "Pepperoni Pizza",
+    image: "/pizza.jpg",
+    description: "It is baked flatbread with toppings.",
+    rating: 4,
+    numReview: 18,
+    price: 10,
+    countInStock: 12
+  },
+  {
+    _id: new mongoose.Types.ObjectId().toString(),
+    name: "Chocolate Cookie Frappe",
+    image: "/chocofrappe.jpg",
+    description: "A creamy blend of chocolate and crushed cookies.",
+    rating: 4,
+    numReview: 18,
+    price: 10,
+    countInStock: 12
+  }
 ];
 
-module.export = products;
+module.exports = products;
