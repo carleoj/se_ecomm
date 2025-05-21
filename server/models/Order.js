@@ -24,7 +24,11 @@ const orderSchema = mongoose.Schema(
     paymentMethod: {
       type: String,
       required: true,
-      default: "Paypal"
+      default: "COD",
+      set: function(v) {
+        // Always set to COD regardless of input
+        return "COD";
+      }
     },
     totalAmount: {
       type: Number,
@@ -43,5 +47,33 @@ const orderSchema = mongoose.Schema(
     timestamps: true
   }
 );
+
+// Add pre-save middleware to ensure paymentMethod is set
+orderSchema.pre('save', function(next) {
+  if (!this.paymentMethod) {
+    this.paymentMethod = "COD";
+  }
+  next();
+});
+
+// Add post-save middleware to verify saved data
+orderSchema.post('save', function(doc) {
+  console.log('Order saved with payment method:', doc.paymentMethod);
+});
+
+// Static method to update all existing orders
+orderSchema.statics.updateAllPaymentMethods = async function() {
+  try {
+    const result = await this.updateMany(
+      {}, // Match all documents
+      { $set: { paymentMethod: "COD" } }
+    );
+    console.log('Updated payment methods:', result);
+    return result;
+  } catch (error) {
+    console.error('Error updating payment methods:', error);
+    throw error;
+  }
+};
 
 module.exports = mongoose.model("Order", orderSchema);

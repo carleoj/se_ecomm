@@ -12,7 +12,7 @@ orderRoute.post(
   protect,
   asyncHandler(async (req, res) => {
     try {
-      console.log('Request body:', JSON.stringify(req.body, null, 2));
+      console.log('Starting order creation with body:', JSON.stringify(req.body, null, 2));
       console.log('User ID:', req.user._id);
 
       const { orderItems, shippingAddress, totalAmount } = req.body;
@@ -70,7 +70,7 @@ orderRoute.post(
       });
 
       // Create order with validated data
-      const order = new Order({
+      const orderData = {
         user: req.user._id,
         orderItems: validatedItems,
         shippingAddress: {
@@ -80,25 +80,47 @@ orderRoute.post(
           country: shippingAddress.country.trim()
         },
         totalAmount: Number(totalAmount),
-        paymentMethod: "Paypal"
-      });
+        paymentMethod: "COD" // Explicitly set payment method
+      };
 
-      console.log('Attempting to save order:', JSON.stringify(order.toObject(), null, 2));
+      console.log('Creating order with data:', JSON.stringify(orderData, null, 2));
+
+      const order = new Order(orderData);
+
+      // Force set payment method again
+      order.paymentMethod = "COD";
+
+      // Log the order instance before saving
+      console.log('Order instance before save:', order.toObject());
 
       const createdOrder = await order.save();
-      console.log('Order created successfully:', createdOrder._id);
+      
+      // Force set payment method one more time after save
+      createdOrder.paymentMethod = "COD";
+      await createdOrder.save();
+      
+      // Log the created order
+      console.log('Order created successfully:', JSON.stringify(createdOrder.toObject(), null, 2));
+
+      // Verify payment method after creation
+      const verifiedOrder = await Order.findById(createdOrder._id);
+      console.log('Verified order payment method:', verifiedOrder.paymentMethod);
+
+      // Force COD in the response
+      const responseOrder = createdOrder.toObject();
+      responseOrder.paymentMethod = "COD";
 
       return res.status(201).json({
         success: true,
         message: "Order created successfully",
         order: {
-          _id: createdOrder._id,
-          orderItems: createdOrder.orderItems,
-          shippingAddress: createdOrder.shippingAddress,
-          totalAmount: createdOrder.totalAmount,
-          paymentMethod: createdOrder.paymentMethod,
-          isPaid: createdOrder.isPaid,
-          createdAt: createdOrder.createdAt
+          _id: responseOrder._id,
+          orderItems: responseOrder.orderItems,
+          shippingAddress: responseOrder.shippingAddress,
+          totalAmount: responseOrder.totalAmount,
+          paymentMethod: "COD",
+          isPaid: responseOrder.isPaid,
+          createdAt: responseOrder.createdAt
         }
       });
 
@@ -140,9 +162,32 @@ orderRoute.get(
   protect,
   asyncHandler(async (req, res) => {
     try {
+      console.log('Fetching orders for user:', req.user._id);
+      
+      // First try to update all orders for this user to COD
+      await Order.updateMany(
+        { user: req.user._id },
+        { $set: { paymentMethod: "COD" } },
+        { new: true }
+      );
+
+      // Then fetch the orders
       const orders = await Order.find({ user: req.user._id })
         .sort({ createdAt: -1 });
-      res.json(orders);
+
+      // Log each order's payment method
+      orders.forEach(order => {
+        console.log('Order ID:', order._id, 'Payment Method:', order.paymentMethod);
+      });
+
+      // Force set COD in the response
+      const modifiedOrders = orders.map(order => {
+        const orderObj = order.toObject();
+        orderObj.paymentMethod = "COD";
+        return orderObj;
+      });
+
+      res.json(modifiedOrders);
     } catch (error) {
       console.error('Error fetching orders:', error);
       res.status(500).json({

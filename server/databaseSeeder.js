@@ -3,6 +3,7 @@ const User = require("./models/User")
 const users = require("./data/Users")
 const Product = require("./models/Product")
 const products = require("./data/Products")
+const Order = require("./models/Order")
 const AsyncHandler = require("express-async-handler")
 
 // Seed users
@@ -83,5 +84,26 @@ router.post('/', AsyncHandler(
         }
     }
 ))
+
+// Update all orders to use COD payment method
+router.post('/update-payment-method', AsyncHandler(
+    async(req, res) => {
+        try {
+            const result = await Order.updateAllPaymentMethods();
+            
+            res.json({ 
+                success: true, 
+                message: 'Updated payment method for all orders',
+                modifiedCount: result.modifiedCount
+            });
+        } catch (error) {
+            console.error('Error updating payment methods:', error);
+            res.status(500).json({ 
+                success: false, 
+                error: error.message 
+            });
+        }
+    }
+));
 
 module.exports = router;

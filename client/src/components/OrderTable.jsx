@@ -21,8 +21,14 @@ const OrderTable = () => {
         if (!response.data) {
           throw new Error("No data received from server");
         }
+
+        // Force all orders to have COD payment method
+        const ordersWithCOD = response.data.map(order => ({
+          ...order,
+          paymentMethod: "COD"
+        }));
         
-        setOrders(response.data);
+        setOrders(ordersWithCOD);
         setError(null);
       } catch (err) {
         console.error("Failed to fetch orders:", err);
@@ -65,9 +71,9 @@ const OrderTable = () => {
                     <div key={idx}>{item.name} (x{item.qty})</div>
                   ))}
                 </td>
-                <td>{order.paymentMethod}</td>
+                <td>COD</td>
                 <td>${order.totalAmount.toFixed(2)}</td>
-                <td>{order.isPaid ? 'Paid' : 'Unpaid'}</td>
+                <td>{order.isPaid ? 'Paid' : 'Processing'}</td>
                 <td>{new Date(order.createdAt).toLocaleDateString()}</td>
               </tr>
             ))
